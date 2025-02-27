@@ -14,13 +14,10 @@ class DioNetworkInterceptor extends dio.Interceptor {
   @override
   Future<void> onRequest(dio.RequestOptions options, dio.RequestInterceptorHandler handler) async{
     super.onRequest(options, handler);
-    print("SMEDIC baseUrl: ${options.baseUrl}");
-    print("SMEDIC pathhhh: ${options.path}");
-    print("SMEDIC fulllll: ${options.baseUrl}${options.path}");
     var requestTime = DateTime.now().millisecondsSinceEpoch.toString();
     NetworkModel networkModel = NetworkModel();
     networkModel.requestType = options.method.toUpperCase();
-    networkModel.path = "${options.baseUrl}${options.path}";
+    networkModel.path = options.path;
     networkModel.requestTime = requestTime;
     networkModel.requestHeaders = options.headers;
     networkModel.queryParams = options.queryParameters;

@@ -97,36 +97,14 @@ class NetworkLogEntryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
   var typeColor = entry.code == null?Colors.black26:entry.requestType == 'GET'?Colors.green:entry.requestType == 'POST'?Colors.teal:entry.requestType == 'PUT'?Colors.indigo:Colors.red;
   final responseColor = (entry.code == null) ? Colors.black38 : (entry.code! >= 200 && entry.code! <= 300) ? Colors.green:(entry.code! >= 400 && entry.code! <=499)?Colors.amber: Colors.red;
-  final uri = Uri.parse(entry.path??'');
-  print("SMEDIC URI1: ${'${uri.scheme}://${uri.host}'}");
-  print("SMEDIC URI2: ${uri.scheme}");
-  print("SMEDIC URI3: ${uri.host}");
-
-  final fullUri = '${uri.scheme}://${uri.host}';
-  print("SMEDIC FULL URI: ${fullUri}");
-
-  // // Find the index of the last slash
-  // int lastSlashIndex = url.lastIndexOf('/');
-  //
-  // if (lastSlashIndex != -1) {
-  //   // Extract the part before the last slash
-  //   String base = url.substring(0, lastSlashIndex);
-  //   // Extract the part after the last slash
-  //   String filename = url.substring(lastSlashIndex + 1);
-  //
-  //   print("Base: $base");      // Output: https://example.com/path/to
-  //   print("Filename: $filename"); // Output: file.txt
-  // } else {
-  //   print("No slash found in the string.");
-  // }
-
-  return ListTile(
-    title: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(
+    final uri = Uri.parse(entry.path ?? '');
+    return ListTile(
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
                 entry.requestType ?? '',
                 style: TextStyle(
                   color: typeColor,
@@ -134,31 +112,34 @@ class NetworkLogEntryWidget extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(width: 8),
-              Expanded(
+              const Spacer(),
+              Container(
+                width: 50.0,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 2.0,
+                ),
+                decoration: BoxDecoration(
+                  color: responseColor,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
                 child: Text(
-                  uri.path,
-                  style: TextStyle(
-                    color: entry.code == null ? Colors.black26 : Colors.black,
-                    fontSize: 14.0,
-                  ),
-                  textAlign: TextAlign.start,
-                  // Align text to the start (left)
-                  maxLines: 2,
+                  entry.code == -87
+                      ? 'Error'
+                      : entry.code == null
+                          ? 'Pending'
+                          : entry.code.toString(),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ],
           ),
-        Row(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              uri.scheme == 'https'
-                  ? const Icon(Icons.lock, size: 12)
-                  : Container(),
-              const SizedBox(width: 2.0),
               Expanded(
                 child: Text(
-                  '${uri.scheme}://${uri.host}',
+                  uri.toString(),
                   style: TextStyle(
                       color: entry.code == null ? Colors.black26 : Colors.black,
                       fontSize: 12,
@@ -169,27 +150,23 @@ class NetworkLogEntryWidget extends StatelessWidget {
           ),
         ],
       ),
-    subtitle: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("Time: ${milisToDateTime(int.parse(entry.requestTime??'0'))}",style: TextStyle(color: entry.code == null?Colors.black26:Colors.black,fontSize: 10)),
-        Text("Size: ${entry.responseSize ?? '0'}B",style: TextStyle(color: entry.code == null?Colors.black26:Colors.black,fontSize: 10)),
-      ],
-    ),
-    trailing: Container(
-        padding: const EdgeInsets.all(6.0),
-        decoration: BoxDecoration(
-          color: responseColor,
-          borderRadius: BorderRadius.circular(4.0),
-        ),
-        child: Text(
-          entry.code == -87
-              ? 'Error'
-              : entry.code == null
-                  ? 'Pending'
-                  : entry.code.toString(),
-          style: const TextStyle(color: Colors.white),
-        ),
+      subtitle: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Time: ${milisToDateTime(int.parse(entry.requestTime ?? '0'))}",
+            style: TextStyle(
+                color: entry.code == null ? Colors.black26 : Colors.black,
+                fontSize: 10),
+          ),
+          Text(
+            "Size: ${entry.responseSize ?? '0'}B",
+            style: TextStyle(
+              color: entry.code == null ? Colors.black26 : Colors.black,
+              fontSize: 10,
+            ),
+          ),
+        ],
       ),
       onTap: () {
         Navigator.of(context).push(
