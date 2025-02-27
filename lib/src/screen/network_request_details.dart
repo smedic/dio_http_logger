@@ -62,7 +62,7 @@ class OverviewWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 10,),
-            Text('URI: ${entry.path}',style: const TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+            Text('URI: ${entry.response?.realUri.toString() ?? ''}', style: const TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
             Text('Request Type: ${entry.requestType}',style: const TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
             const SizedBox(height: 10,),
             const Text('REQUEST',style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.blueGrey),),

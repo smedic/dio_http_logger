@@ -12,6 +12,7 @@ class NetworkModel{
   Map<String,dynamic>? _queryParams;
   Map<String,dynamic>? _responseHeaders;
   String? _responseBody;
+  Uri? uri;
   String? _requestSize;
   String? _responseSize;
   dio.RequestOptions? _requestOptions;

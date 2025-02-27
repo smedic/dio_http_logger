@@ -18,6 +18,7 @@ class DioNetworkInterceptor extends dio.Interceptor {
     NetworkModel networkModel = NetworkModel();
     networkModel.requestType = options.method.toUpperCase();
     networkModel.path = "${options.baseUrl}${options.path}";
+    networkModel.uri = options.uri;
     networkModel.requestTime = requestTime;
     networkModel.requestHeaders = options.headers;
     networkModel.queryParams = options.queryParameters;
