@@ -98,6 +98,27 @@ class NetworkLogEntryWidget extends StatelessWidget {
   var typeColor = entry.code == null?Colors.black26:entry.requestType == 'GET'?Colors.green:entry.requestType == 'POST'?Colors.teal:entry.requestType == 'PUT'?Colors.indigo:Colors.red;
   final responseColor = (entry.code == null) ? Colors.black38 : (entry.code! >= 200 && entry.code! <= 300) ? Colors.green:(entry.code! >= 400 && entry.code! <=499)?Colors.amber: Colors.red;
   final uri = Uri.parse(entry.path??'');
+  print("SMEDIC URI1: ${'${uri.scheme}://${uri.host}'}");
+  print("SMEDIC URI2: ${uri.scheme}");
+  print("SMEDIC URI3: ${uri.host}");
+
+  final fullUri = '${uri.scheme}://${uri.host}';
+  print("SMEDIC FULL URI: ${fullUri}");
+
+  // // Find the index of the last slash
+  // int lastSlashIndex = url.lastIndexOf('/');
+  //
+  // if (lastSlashIndex != -1) {
+  //   // Extract the part before the last slash
+  //   String base = url.substring(0, lastSlashIndex);
+  //   // Extract the part after the last slash
+  //   String filename = url.substring(lastSlashIndex + 1);
+  //
+  //   print("Base: $base");      // Output: https://example.com/path/to
+  //   print("Filename: $filename"); // Output: file.txt
+  // } else {
+  //   print("No slash found in the string.");
+  // }
 
   return ListTile(
     title: Column(
@@ -105,9 +126,16 @@ class NetworkLogEntryWidget extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text("${entry.requestType}",style: TextStyle(color: typeColor,fontStyle: FontStyle.normal,fontWeight: FontWeight.bold),),
-            const SizedBox(width: 8),
-            Expanded(
+            Text(
+                entry.requestType ?? '',
+                style: TextStyle(
+                  color: typeColor,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
                 child: Text(
                   uri.path,
                   style: TextStyle(
@@ -120,16 +148,17 @@ class NetworkLogEntryWidget extends StatelessWidget {
                 ),
               ),
             ],
-        ),
+          ),
         Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               uri.scheme == 'https'
                   ? const Icon(Icons.lock, size: 12)
                   : Container(),
+              const SizedBox(width: 2.0),
               Expanded(
                 child: Text(
-                  ' ${uri.scheme}://${uri.host}',
+                  '${uri.scheme}://${uri.host}',
                   style: TextStyle(
                       color: entry.code == null ? Colors.black26 : Colors.black,
                       fontSize: 12,
