@@ -106,28 +106,40 @@ class NetworkLogEntryWidget extends StatelessWidget {
         Row(
           children: [
             Text("${entry.requestType}",style: TextStyle(color: typeColor,fontStyle: FontStyle.normal,fontWeight: FontWeight.bold),),
-            const SizedBox(width: 5,),
+            const SizedBox(width: 8),
             Expanded(
-              child: Text(
+                child: Text(
                   uri.path,
-                  style: TextStyle(color: entry.code == null?Colors.black26:Colors.black,),
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                  textAlign: TextAlign.start, // Align text to the start (left)
-                  maxLines: 1,
+                  style: TextStyle(
+                    color: entry.code == null ? Colors.black26 : Colors.black,
+                    fontSize: 14.0,
+                  ),
+                  textAlign: TextAlign.start,
+                  // Align text to the start (left)
+                  maxLines: 2,
+                ),
               ),
-            )
-          ],
+            ],
         ),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            uri.scheme == 'https'?const Icon(Icons.lock,size: 12,):Container(),
-            Text(' ${uri.scheme}://${uri.host}',style: TextStyle(color: entry.code == null?Colors.black26:Colors.black,fontSize: 12,fontWeight: FontWeight.bold),),
-          ],
-        )
-      ],
-    ),
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              uri.scheme == 'https'
+                  ? const Icon(Icons.lock, size: 12)
+                  : Container(),
+              Expanded(
+                child: Text(
+                  ' ${uri.scheme}://${uri.host}',
+                  style: TextStyle(
+                      color: entry.code == null ? Colors.black26 : Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     subtitle: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -136,19 +148,24 @@ class NetworkLogEntryWidget extends StatelessWidget {
       ],
     ),
     trailing: Container(
-      padding: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: responseColor,
-        borderRadius: BorderRadius.circular(4.0),
+        padding: const EdgeInsets.all(6.0),
+        decoration: BoxDecoration(
+          color: responseColor,
+          borderRadius: BorderRadius.circular(4.0),
+        ),
+        child: Text(
+          entry.code == -87
+              ? 'Error'
+              : entry.code == null
+                  ? 'Pending'
+                  : entry.code.toString(),
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
-      child: Text(
-        entry.code == -87?'Error':entry.code == null?'Pending':entry.code.toString(),
-        style: const TextStyle(color: Colors.white),
-      ),
-    ),
-    onTap: (){
-      Navigator.of(context).push(MaterialPageRoute(builder: (_) =>  NetworkRequestDetails(entry)));
-    },
-  );
+      onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => NetworkRequestDetails(entry)));
+      },
+    );
   }
 }
