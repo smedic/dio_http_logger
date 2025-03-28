@@ -11,7 +11,7 @@ class NetworkModel{
   Map<String,dynamic>? _requestBody;
   Map<String,dynamic>? _queryParams;
   Map<String,dynamic>? _responseHeaders;
-  String? _responseBody;
+  dynamic _responseBody;
   Uri? uri;
   String? _requestSize;
   String? _responseSize;
@@ -74,9 +74,9 @@ class NetworkModel{
     _requestType = value;
   }
 
-  String? get responseBody => _responseBody;
+  dynamic get responseBody => _responseBody;
 
-  set responseBody(String? value) {
+  set responseBody(dynamic value) {
     _responseBody = value;
   }
 

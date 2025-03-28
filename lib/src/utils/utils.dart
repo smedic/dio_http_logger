@@ -81,12 +81,11 @@ String milisToDateTime(int millisecondsSinceEpoch){
 
 String covertToQuotedJson(String jsonDump){
   String invalidJson = "{title: New Post, body: This is the body of the new post., userId: 1, id: 101}";
-
   // Pattern to match keys and string values without quotes
   RegExp pattern = RegExp(r"(\w+)\s*:\s*([^,{}]+)");
 
   // Replace matches with quoted keys and values
-  String correctedJson = invalidJson.replaceAllMapped(pattern, (match) {
+  String correctedJson = jsonDump.replaceAllMapped(pattern, (match) {
     return '"${match.group(1)}": "${match.group(2)}"';
   });
   return correctedJson;

@@ -195,7 +195,10 @@ class ResponseWidget extends StatelessWidget {
                 )
               ],
             ),
-            Text(encoder.convert(json.decode(covertToQuotedJson(entry.responseBody??'')))??'- -'),
+            Text(encoder.convert(entry.responseBody)),
+            // Text(
+            //   encoder.convert(covertToQuotedJson(entry.responseBody ?? '')),
+            // ),
             const SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

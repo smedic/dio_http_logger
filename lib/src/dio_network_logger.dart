@@ -85,7 +85,7 @@ class DioNetworkLogger {
       var networkRequest = _networkModels.removeAt(networkRequestIndex);
       networkRequest.code = response.statusCode;
       networkRequest.responseHeaders = response.headers.map;
-      networkRequest.responseBody = response.data.toString();
+      networkRequest.responseBody = response.data;
       networkRequest.responseSize = measureNetworkData(response.data.toString());
       networkRequest.responseTime = DateTime.now().millisecondsSinceEpoch.toString();
       networkRequest.response = response;
