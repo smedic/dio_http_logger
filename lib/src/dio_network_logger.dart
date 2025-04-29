@@ -79,8 +79,9 @@ class DioNetworkLogger {
 
   // Handle successful network responses
   void _onNetworkResponse(dio.Response response){
-    final requestTimestamp = response.requestOptions.extra['requestTimestamp'];
-    var networkRequestIndex = _findNetworkModelWithTimeStamp(requestTimestamp,"${response.requestOptions.baseUrl}${response.requestOptions.path}");
+    final requestTimestamp = response.requestOptions.extra['requestTimestamp'] ?? '';
+    var networkRequestIndex = _findNetworkModelWithTimeStamp(requestTimestamp,
+        "${response.requestOptions.baseUrl}${response.requestOptions.path}");
     if(networkRequestIndex != null){
       var networkRequest = _networkModels.removeAt(networkRequestIndex);
       networkRequest.code = response.statusCode;
