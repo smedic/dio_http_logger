@@ -22,7 +22,7 @@ class DioNetworkInterceptor extends dio.Interceptor {
     networkModel.requestTime = requestTime;
     networkModel.requestHeaders = options.headers;
     networkModel.queryParams = options.queryParameters;
-    networkModel.requestBody = options.data;
+    networkModel.requestBody = options.data ?? '';
     networkModel.requestSize = measureNetworkData(options.data);
     networkModel.requestOptions = options;
     LocalNotification.instance.showSimpleNotification('Request : : ${networkModel.requestType}', options.path, 'payload');
