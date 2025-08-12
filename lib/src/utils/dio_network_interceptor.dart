@@ -16,13 +16,21 @@ class DioNetworkInterceptor extends dio.Interceptor {
     super.onRequest(options, handler);
     var requestTime = DateTime.now().millisecondsSinceEpoch.toString();
     NetworkModel networkModel = NetworkModel();
-    networkModel.requestType = options.method.toUpperCase();
+    if (options.data is dio.FormData) {
+      networkModel.requestType = 'POST(multipart)';
+    } else {
+      networkModel.requestType = options.method.toUpperCase();
+    }
     networkModel.path = "${options.baseUrl}${options.path}";
     networkModel.uri = options.uri;
     networkModel.requestTime = requestTime;
     networkModel.requestHeaders = options.headers;
     networkModel.queryParams = options.queryParameters;
-    networkModel.requestBody = options.data;
+    if (options.data is dio.FormData) {
+      networkModel.requestBody = { 'body': 'attachment_multipart...'};
+    } else {
+      networkModel.requestBody = options.data;
+    }
     networkModel.requestSize = measureNetworkData(options.data);
     networkModel.requestOptions = options;
     LocalNotification.instance.showSimpleNotification('Request : : ${networkModel.requestType}', options.path, 'payload');

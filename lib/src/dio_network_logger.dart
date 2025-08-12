@@ -79,7 +79,6 @@ class DioNetworkLogger {
 
   // Handle successful network responses
   void _onNetworkResponse(dio.Response response){
-    print("SMEDIC --> ${response.requestOptions}");
     final requestTimestamp = response.requestOptions.extra['requestTimestamp'] ?? '';
     var networkRequestIndex = _findNetworkModelWithTimeStamp(requestTimestamp,
         "${response.requestOptions.baseUrl}${response.requestOptions.path}");
