@@ -242,7 +242,7 @@ class ResponseWidget extends StatelessWidget {
                     )
                   ],
                 ),
-                Text(entry.exception?.message??'',style: const TextStyle(color: Colors.deepOrange)),
+                Text(entry.exception?.message ?? '', style: const TextStyle(color: Colors.deepOrange)),
                 const SizedBox(height: 10,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -266,5 +266,4 @@ class ResponseWidget extends StatelessWidget {
     );
   }
 }
-
 

@@ -102,7 +102,12 @@ class DioNetworkLogger {
     var networkRequestIndex = _findNetworkModelWithTimeStamp(requestTimestamp,"${error.requestOptions.baseUrl}${error.requestOptions.path}");
     if(networkRequestIndex != null){
       var networkRequest = _networkModels.removeAt(networkRequestIndex);
-      networkRequest.code = -87;
+      networkRequest.code = error.response?.statusCode ?? -87;
+      networkRequest.response = error.response;
+      networkRequest.responseHeaders = error.response?.headers.map;
+      networkRequest.responseBody = error.response?.data ?? error.message;
+      networkRequest.responseSize = measureNetworkData((error.response?.data ?? error.message).toString());
+      networkRequest.responseTime = DateTime.now().millisecondsSinceEpoch.toString();
       networkRequest.exception = error;
       LocalNotification.instance.showSimpleNotification('Error : : ${networkRequest.requestType}', networkRequest.path??'', 'payload');
       _networkModels.insert(0, networkRequest);

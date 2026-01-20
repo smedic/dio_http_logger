@@ -26,17 +26,31 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late final Dio _client;
 
   @override
   void initState() {
     super.initState();
+    _client = Dio();
+    _client.interceptors.add(DioNetworkLogger.instance.dioNetworkInterceptor!);
+    DioNetworkLogger.instance.listenerEventChange = () {
+      final models = DioNetworkLogger.instance.networkModels;
+      if (models.isNotEmpty && models.first.exception != null) {
+        debugPrint('Logged error response body: ${models.first.responseBody}');
+      }
+    };
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      try {
+        await _client.get('https://jsonplaceholder.typicode.com/404');
+      } catch (_) {
+        // Ignore; we only care about logging output.
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     DioNetworkLogger.instance.context = context;
-    final client = Dio();
-    client.interceptors.add(DioNetworkLogger.instance.dioNetworkInterceptor!);
 
     return Scaffold(
       appBar: AppBar(
@@ -49,12 +63,12 @@ class _MyAppState extends State<MyApp> {
           children: [
             TextButton(
                 onPressed: (){
-                  client.get('https://jsonplaceholder.typicode.com/todos/1');
+                  _client.get('https://jsonplaceholder.typicode.com/todos/1');
                 }, child: const Text('SEND GET REQUEST')
             ),
             TextButton(
                 onPressed: (){
-                  client.post(
+                  _client.post(
                     'https://jsonplaceholder.typicode.com/posts',
                     data: {
                       'title': 'New Post',
@@ -66,7 +80,7 @@ class _MyAppState extends State<MyApp> {
             ),
             TextButton(
                 onPressed: (){
-                  client.put(
+                  _client.put(
                     'https://jsonplaceholder.typicode.com/posts/1',
                     data: {
                       'id': 1,
