@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
           children: [
             TextButton(
                 onPressed: (){
-                  client.get('https://jsonplaceholder.typicode.com/todos/1');
+                  client.get('https://httpbin.org/status/404');
                 }, child: const Text('SEND GET REQUEST')
             ),
             TextButton(

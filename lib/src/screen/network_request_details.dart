@@ -206,7 +206,7 @@ class ResponseWidget extends StatelessWidget {
                 const Text('Extra:',style: TextStyle(fontWeight: FontWeight.bold),),
                 InkWell(
                     onTap: ()async{
-                      Clipboard.setData(ClipboardData(text: '${entry.response?.extra??''}'));
+                      Clipboard.setData(ClipboardData(text: 'SRANJE ${entry.response?.extra??''}'));
                     },
                     child: const Icon(Icons.copy,size: 14,)
                 )
